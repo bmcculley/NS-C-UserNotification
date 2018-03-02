@@ -1,7 +1,8 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <objc/objc-runtime.h>
 
-int main(int argc, char** argv) {
+void send_notification()
+{
     id pool = (id)objc_getClass("NSAutoreleasePool");
     
     pool = objc_msgSend(pool,
@@ -26,6 +27,7 @@ int main(int argc, char** argv) {
     objc_msgSend(notif, sel_registerName("setTitle:"), CFSTR("Title"));
     //objc_msgSend(notif, sel_registerName("setSubtitle:"), CFSTR("Subtitle"));
     objc_msgSend(notif, sel_registerName("setInformativeText:"), CFSTR("Informative text"));
+    objc_msgSend(notif, sel_registerName("setSoundName:"), CFSTR("default"));
     
     objc_msgSend(notifCenter, sel_registerName("deliverNotification:"), notif);
     
@@ -33,5 +35,10 @@ int main(int argc, char** argv) {
     
     objc_msgSend(pool, sel_registerName("release"));
 
+}
+
+int main(int argc, char** argv) 
+{
+    send_notification();
     return 0;
 }
